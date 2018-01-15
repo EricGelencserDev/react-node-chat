@@ -1,0 +1,37 @@
+.chat {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    text-align: left;
+}
+
+.chat-messages {
+    position: absolute;
+    top: 0px;
+    height: 250px;
+    width: 100%;
+    overflow-y: auto;
+    border: 1px solid #777777;
+}
+
+.chat-input {
+    position: absolute;
+    bottom: 3px;
+    left: 0px;
+}
+
+.chat-typing-indicator {
+    visibility: hidden;
+    position: absolute;
+    bottom: 25px;
+    left: 0px;
+}
+
+.chat-typing-indicator.active {
+    visibility: visible;
+}
+
+.chat-typing-indicator.active::before {
+    content: "...";
+}
