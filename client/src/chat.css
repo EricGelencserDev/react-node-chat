@@ -37,11 +37,15 @@
     content: "...";
 }
 
+.chat-line {
+    clear: both;
+}
 .chat-message {
     background-color: #888888;
     padding: 3px;
     border-radius: 3px;
-    width: 75%;
+    max-width: 75%;
+    min-width: 10%;
     float:left;
     margin-bottom: 3px;
     margin-left: 3px;
