@@ -4,8 +4,8 @@ import './chat.css';
 
 
 class Chat extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.addMessage = this.addMessage.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
@@ -35,9 +35,14 @@ class Chat extends Component {
     }
 
     addMessage = (message) => {
+        let owner = '';
+        if (message.username === this.props.username) {
+            owner = 'owner'
+        }
         let messageElement =
-            <div className='chat-message' key={message.id}>
-                <span className='chat-message-text' >{message.text}</span>
+            <div className={'chat-message ' + owner} key={message.id}>
+                <div className = 'chat-message-username'>{message.username}</div>
+                <div className='chat-message-text' >{message.text}</div>
             </div>
 
         var messages = this.state.messages;
@@ -60,8 +65,10 @@ class Chat extends Component {
         let messageText = this.state.input.trim();
         if (messageText) {
             let message = {
+                username: this.props.username,
                 text: messageText
             }
+            console.log("Sending " + JSON.stringify(message))
             this.socket.emit('send', message);
             this.setState({ input: '' });
         }
@@ -82,7 +89,8 @@ class Chat extends Component {
         return (
             <div className='chat'>
                 <div ref={(div) => {
-                    this.messageList = div;}} className='chat-messages'>
+                    this.messageList = div;
+                }} className='chat-messages'>
                     {this.state.messages}
                 </div>
                 <div className={'chat-typing-indicator ' + this.state.isTyping}>
