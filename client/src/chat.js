@@ -14,14 +14,27 @@ class Chat extends Component {
 
         this.state = {
             messages: [],
+            users: [],
             input: '',
             isTyping: ''
         }
         this.socket = io('/chat');
         this.socket.on('connect', () => {
+            this.socket.emit('signin', this.props.username);
             this.socket.on('new-message', this.addMessage);
+            this.socket.on('typing', this.showTyping);
+            this.socket.on('userlist', this.showUsers);
         })
-        this.socket.on('typing', this.showTyping)
+    }
+
+    showUsers = (users) => {
+        let userElements = [];
+        users.forEach(user => {
+            userElements.push(
+                <div className='chat-users-username'>{user}</div>
+            )
+        })
+        this.setState({ users: userElements })
     }
 
     showTyping = (data) => {
@@ -95,17 +108,23 @@ class Chat extends Component {
     render() {
         return (
             <div className='chat'>
-                <div ref={(div) => {
-                    this.messageList = div;
-                }} className='chat-messages'>
-                    {this.state.messages}
-                </div>
-                <div className={'chat-typing-indicator ' + this.state.isTyping}>
+                <div className='chat-content'>
+                    <div className='chat-userlist'>
+                    <div className = 'chat-userlist-title'>Active Users</div>
+                        {this.state.users}
+                    </div>
+                    <div ref={(div) => {
+                        this.messageList = div;
+                    }} className='chat-messages'>
+                        {this.state.messages}
+                    </div>
+                    <div className={'chat-typing-indicator ' + this.state.isTyping}>
+                    </div>
                 </div>
                 <div className='chat-input'>
                     <input className='chat-input-text' onKeyPress={this.onKeyPress} onChange={this.onChange} value={this.state.input} />
-                    <button className = 'chat-input-send' onClick={this.sendMessage}>Send</button>
-                    <div className = 'chat-clear'></div>
+                    <button className='chat-input-send' onClick={this.sendMessage}>Send</button>
+                    <div className='chat-clear'></div>
                 </div>
             </div>
         )

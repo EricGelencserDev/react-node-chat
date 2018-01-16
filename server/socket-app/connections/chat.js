@@ -3,12 +3,31 @@ let connection = {
 }
 
 let id = 0;
+let users = {};
 
 
 function onConnect(socket) {
     let interval = 1000;
     let messageCount = 10;
     let timer = null;
+
+    socket.on('signin', (username) => {
+        let userConnection = {
+            socket: socket.id,
+            username: username
+        }
+        users[socket.id] = username;
+        this.emit('userlist', Object.keys(users).map(id =>{
+            return users[id]
+        }));
+    })
+
+    socket.on('disconnect', () => {
+        delete users[socket.id];
+        this.emit('userlist', Object.keys(users).map(id =>{
+            return users[id]
+        }));
+    })
 
     socket.on('send', (message) => {
         message.id = id++;

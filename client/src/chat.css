@@ -4,15 +4,28 @@
     margin-top: 10px;
     text-align: left;
     border: 1px solid #777777;
-    width: 500px;
+    width: 402px;
+}
+.chat-content {
+    height: 350px;
+    width: 400px;
+}
+.chat-userlist {
+    width: 100px;
+    height: 100%;
+    float: left;
+    border-right: 1px solid black;
 }
 
 .chat-messages {
-    height: 350px;
+    float: left;
+    width: 299px;
+    height: 100%;
     overflow-y: auto;
 }
 
 .chat-input {
+    clear: both;
     border-top: 1px solid #777777;
     width: 100%;
 }
