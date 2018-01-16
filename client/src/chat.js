@@ -46,6 +46,7 @@ class Chat extends Component {
                 <div className={'chat-message ' + owner} key={message.id}>
                     <div className='chat-message-username'>{message.username}</div>
                     <div className='chat-message-text' >{message.text}</div>
+                    <div className='chat-message-timeStamp'>{message.timeStamp}</div>
                 </div>
                 <div className='chat-clear'></div>
             </div>
