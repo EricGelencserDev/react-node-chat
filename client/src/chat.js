@@ -14,29 +14,58 @@ class Chat extends Component {
 
         this.state = {
             messages: [],
+            users: {},
             input: '',
             isTyping: ''
         }
         this.socket = io('/chat');
         this.socket.on('connect', () => {
+            this.socket.emit('signin', this.props.username);
             this.socket.on('new-message', this.addMessage);
+            this.socket.on('typing', this.showTyping);
+            this.socket.on('userlist', this.updateUsers);
         })
-        this.socket.on('typing', this.showTyping)
     }
 
-    showTyping = (data) => {
+    updateUsers = (userList) => {
+        this.setState({ users: userList })
+    }
+
+    userList = (users) => {
         let _this = this;
-        this.setState({ isTyping: 'active' })
+        let userElements = [];
+        Object.keys(this.state.users).forEach(userId => {
+            let user = _this.state.users[userId];
+            let isTyping = user.isTyping ? 'active':'';
+            userElements.push(
+                <div>
+                    <span className='chat-userlist-username' key={user.userId}>{user.username}</span>
+                    <span className={'chat-typing-indicator ' + isTyping}></span>
+                </div>
+            )
+        })
+        return (userElements);
+    }
+
+    showTyping = (user) => {
+        let _this = this;
+        let users = this.state.users;
+        users[user.userId].isTyping = true;
+        this.setState({ users: users, isTyping: 'active' })
         clearTimeout(this.typingTimer);
-        this.typingTimer = setTimeout(() => {
-            _this.setState({ isTyping: '' })
-        }, 2000)
+        this.typingTimer = setTimeout(this.stopTyping.bind(this, user), 2000)
         console.log("typing...");
+    }
+
+    stopTyping = (user) => {
+        let users = this.state.users;
+        users[user.userId].isTyping = false;
+        this.setState({ users: users, isTyping: '' })
     }
 
     addMessage = (message) => {
         clearTimeout(this.typingTimer);
-        this.setState({ isTyping: '' });
+        this.stopTyping(this.state.users[message.userId])
         let owner = '';
         if (message.owner === this.socket.id) {
             owner = 'owner'
@@ -92,20 +121,32 @@ class Chat extends Component {
         this.scrollToBottom();
     }
 
+    componentWillUnmount() {
+        this.socket.disconnect();
+    }
     render() {
         return (
             <div className='chat'>
-                <div ref={(div) => {
-                    this.messageList = div;
-                }} className='chat-messages'>
-                    {this.state.messages}
-                </div>
-                <div className={'chat-typing-indicator ' + this.state.isTyping}>
+                <div className='chat-content'>
+                    <div className='chat-userlist'>
+                        <div className='chat-userlist-title'>Active Users</div>
+                        {this.userList()}
+                    </div>
+                    <div ref={(div) => {
+                        this.messageList = div;
+                    }} className='chat-messages'>
+                        <div>
+                            {this.state.messages}
+                        </div>
+                        <div className={'chat-typing-indicator ' + this.state.isTyping}>
+                        </div>
+                    </div>
+
                 </div>
                 <div className='chat-input'>
                     <input className='chat-input-text' onKeyPress={this.onKeyPress} onChange={this.onChange} value={this.state.input} />
-                    <button className = 'chat-input-send' onClick={this.sendMessage}>Send</button>
-                    <div className = 'chat-clear'></div>
+                    <button className='chat-input-send' onClick={this.sendMessage}>Send</button>
+                    <div className='chat-clear'></div>
                 </div>
             </div>
         )

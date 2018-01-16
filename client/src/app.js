@@ -15,7 +15,7 @@ class App extends Component {
 
   onKeyPress = (e) => {
     if (e.charCode === 13) {
-      this.setUsername();
+      this.signIn();
     }
   }
 
@@ -23,22 +23,27 @@ class App extends Component {
     this.setState({ input: e.target.value })
   }
 
-  setUsername = (e) => {
+  signIn = (e) => {
     this.setState({ username: this.state.input })
   }
 
+  signOut = () => {
+    this.setState({username: ''})
+  }
+  
   render() {
     let usernameBlock = null;
     if (this.state.username) usernameBlock =
       <div>
         <div>You are chatting as</div>
         <div>{this.state.username}</div>
+        <button onClick = {this.signOut}>Sign Out</button>
       </div>
     else usernameBlock =
       <div>
         <div>Enter Your Name To Start Chatting</div>
         <input placeholder='Your name' onKeyPress={this.onKeyPress} onChange = {this.onChange}></input>
-        <input type='submit' value='Chat!'></input>
+        <button onClick = {this.signIn}>Chat!</button>
       </div>
 
     let chatBlock = null;
