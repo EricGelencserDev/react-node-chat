@@ -6,32 +6,43 @@
     border: 1px solid #777777;
     width: 402px;
 }
+
 .chat-content {
     height: 350px;
     width: 400px;
 }
+
 .chat-userlist {
-    width: 100px;
+    width: 80px;
     height: 100%;
     float: left;
+    font-size: 12px;
     border-right: 1px solid black;
+}
+
+.chat-userlist-username {
+    padding: 5px;
+}
+.chat-userlist-title {
+    text-align: center;
 }
 
 .chat-messages {
     float: left;
-    width: 299px;
+    width: 319px;
     height: 100%;
     overflow-y: auto;
 }
 
 .chat-input {
     clear: both;
+    padding: 3px;
     border-top: 1px solid #777777;
-    width: 100%;
 }
 
 .chat-input-send {
     float: right;
+    margin-right: 5px;
 }
 
 .chat-input-text {
@@ -39,7 +50,6 @@
 }
 
 .chat-typing-indicator {
-    clear: both;
     height: 20px;
 }
 
@@ -47,14 +57,15 @@
 }
 
 .chat-typing-indicator.active::before {
-    display:block;
+    display: inline-block;
     position: relative;
-    height: 20px;
-    width: 70px;
-    background-image: url(./ellipsis.gif);
-    background-size: 30px;
-    background-repeat:no-repeat;
+    width: 30px;
+    height: 10px;
+    background-image: url(/static/media/ellipsis.50e023b2.gif);
+    background-size: 20px;
+    background-repeat: no-repeat;
     content: '';
+    top: -3px;
 }
 
 .chat-clear {
