@@ -4,6 +4,7 @@ let connection = {
 
 let id = 0;
 
+
 function onConnect(socket) {
     let interval = 1000;
     let messageCount = 10;
@@ -11,6 +12,7 @@ function onConnect(socket) {
 
     socket.on('send', (message) => {
         message.id = id++;
+        message.timeStamp = new Date();
         this.emit('new-message', message);
     })
 
