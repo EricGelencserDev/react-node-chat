@@ -105,21 +105,27 @@ class Chat extends Component {
         this.scrollToBottom();
     }
 
+    componentWillUnmount() {
+        this.socket.disconnect();
+    }
     render() {
         return (
             <div className='chat'>
                 <div className='chat-content'>
                     <div className='chat-userlist'>
-                    <div className = 'chat-userlist-title'>Active Users</div>
+                        <div className='chat-userlist-title'>Active Users</div>
                         {this.state.users}
                     </div>
                     <div ref={(div) => {
                         this.messageList = div;
                     }} className='chat-messages'>
-                        {this.state.messages}
+                        <div>
+                            {this.state.messages}
+                        </div>
+                        <div className={'chat-typing-indicator ' + this.state.isTyping}>
+                        </div>
                     </div>
-                    <div className={'chat-typing-indicator ' + this.state.isTyping}>
-                    </div>
+
                 </div>
                 <div className='chat-input'>
                     <input className='chat-input-text' onKeyPress={this.onKeyPress} onChange={this.onChange} value={this.state.input} />

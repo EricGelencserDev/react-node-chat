@@ -39,6 +39,7 @@
 }
 
 .chat-typing-indicator {
+    clear: both;
     height: 20px;
 }
 
