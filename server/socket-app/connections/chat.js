@@ -15,7 +15,7 @@ function onConnect(socket) {
     })
 
     socket.on('typing', (data) => {
-        this.emit('typing');
+        socket.broadcast.emit('typing');
     })
 }
 

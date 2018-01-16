@@ -30,13 +30,15 @@ class Chat extends Component {
         clearTimeout(this.typingTimer);
         this.typingTimer = setTimeout(() => {
             _this.setState({ isTyping: '' })
-        }, 1000)
+        }, 2000)
         console.log("typing...");
     }
 
     addMessage = (message) => {
+        clearTimeout(this.typingTimer);
+        this.setState({ isTyping: '' });
         let owner = '';
-        if (message.username === this.props.username) {
+        if (message.owner === this.socket.id) {
             owner = 'owner'
         }
         let messageElement =
@@ -45,7 +47,7 @@ class Chat extends Component {
                     <div className='chat-message-username'>{message.username}</div>
                     <div className='chat-message-text' >{message.text}</div>
                 </div>
-                <div className='chat-line'></div>
+                <div className='chat-clear'></div>
             </div>
 
         var messages = this.state.messages;
@@ -69,6 +71,7 @@ class Chat extends Component {
         if (messageText) {
             let message = {
                 username: this.props.username,
+                owner: this.socket.id,
                 text: messageText
             }
             console.log("Sending " + JSON.stringify(message))
@@ -99,8 +102,9 @@ class Chat extends Component {
                 <div className={'chat-typing-indicator ' + this.state.isTyping}>
                 </div>
                 <div className='chat-input'>
-                    <input onKeyPress={this.onKeyPress} onChange={this.onChange} value={this.state.input} />
-                    <button onClick={this.sendMessage}>Send</button>
+                    <input className='chat-input-text' onKeyPress={this.onKeyPress} onChange={this.onChange} value={this.state.input} />
+                    <button className = 'chat-input-send' onClick={this.sendMessage}>Send</button>
+                    <div className = 'chat-clear'></div>
                 </div>
             </div>
         )

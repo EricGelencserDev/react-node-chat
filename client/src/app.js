@@ -6,13 +6,25 @@ import Chat from './chat';
 class App extends Component {
   constructor() {
     super();
+    this.onKeyPress = this.onKeyPress.bind(this);
+
     this.state = {
       username: ''
     }
   }
 
+  onKeyPress = (e) => {
+    if (e.charCode === 13) {
+      this.setUsername();
+    }
+  }
+
+  onChange = (e) => {
+    this.setState({ input: e.target.value })
+  }
+
   setUsername = (e) => {
-    this.setState({ username: e.target.value })
+    this.setState({ username: this.state.input })
   }
 
   render() {
@@ -25,14 +37,14 @@ class App extends Component {
     else usernameBlock =
       <div>
         <div>Enter Your Name To Start Chatting</div>
-        <input placeholder='Your name' onBlur={this.setUsername}></input>
+        <input placeholder='Your name' onKeyPress={this.onKeyPress} onChange = {this.onChange}></input>
         <input type='submit' value='Chat!'></input>
       </div>
 
     let chatBlock = null;
     if (this.state.username) chatBlock =
       <div>
-        <Chat username = {this.state.username}/>
+        <Chat username={this.state.username} />
       </div>
     else chatBlock =
       <div>Sign in to chat!</div>
