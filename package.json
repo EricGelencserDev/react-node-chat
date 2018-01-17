@@ -9,6 +9,7 @@
     "start": "node ./server/bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage" : "/client/build",
   "author": "",
   "license": "ISC"
 }
