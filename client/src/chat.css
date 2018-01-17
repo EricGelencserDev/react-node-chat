@@ -61,7 +61,7 @@
     position: relative;
     width: 30px;
     height: 10px;
-    background-image: url(/static/media/ellipsis.50e023b2.gif);
+    background-image: url(./ellipsis.gif);
     background-size: 20px;
     background-repeat: no-repeat;
     content: '';
