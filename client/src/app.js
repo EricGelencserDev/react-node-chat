@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import logo from './logo.svg';
 import './app.css';
 import Chat from './chat';
@@ -28,22 +29,23 @@ class App extends Component {
   }
 
   signOut = () => {
-    this.setState({username: ''})
+    this.setState({ username: '' })
   }
-  
+
   render() {
     let usernameBlock = null;
     if (this.state.username) usernameBlock =
       <div>
-        <div>You are chatting as</div>
-        <div>{this.state.username}</div>
-        <button onClick = {this.signOut}>Sign Out</button>
+        <div>
+          <span>You are chatting as {this.state.username}   </span>
+          <button type="button" className="btn btn-primary" onClick={this.signOut}>Sign Out</button>
+        </div>
       </div>
     else usernameBlock =
       <div>
         <div>Enter Your Name To Start Chatting</div>
-        <input placeholder='Your name' onKeyPress={this.onKeyPress} onChange = {this.onChange}></input>
-        <button onClick = {this.signIn}>Chat!</button>
+        <input placeholder='Your name' onKeyPress={this.onKeyPress} onChange={this.onChange}></input>
+        <span>  </span><button type="button" className="btn btn-primary" onClick={this.signIn}>Chat</button>
       </div>
 
     let chatBlock = null;

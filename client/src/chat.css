@@ -1,19 +1,25 @@
+
+div {
+    border-radius: 3px;
+}
 .chat {
     position: relative;
     margin: 0 auto;
     margin-top: 10px;
     text-align: left;
     border: 1px solid #777777;
-    width: 402px;
+    min-width: 300px;
+    width: 33%;
+    height: 400px;
 }
 
 .chat-content {
-    height: 350px;
-    width: 400px;
+    height: 100%;
+    width: 100%;
 }
 
 .chat-userlist {
-    width: 80px;
+    width: 25%;
     height: 100%;
     float: left;
     font-size: 12px;
@@ -25,27 +31,36 @@
 }
 .chat-userlist-title {
     text-align: center;
+    padding:2px;
+    border-bottom: 1px solid black;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .chat-messages {
     float: left;
-    width: 319px;
+    width: 75%;
     height: 100%;
     overflow-y: auto;
 }
 
 .chat-input {
+    width: 100%;
     clear: both;
-    padding: 3px;
     border-top: 1px solid #777777;
 }
 
 .chat-input-send {
+    position: relative;
+    right: -1px;
     float: right;
-    margin-right: 5px;
+    width: 20%;
 }
 
 .chat-input-text {
+    position: relative;
+    left: -1px;
+    float:left;
     width:80%;
 }
 
@@ -78,7 +93,7 @@
     max-width: 75%;
     min-width: 10%;
     float:left;
-    margin-bottom: 3px;
+    margin-top: 3px;
     margin-left: 3px;
 }
 
