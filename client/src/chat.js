@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from "socket.io-client";
 import './chat.css';
-
+import moment from 'moment';
 
 class Chat extends Component {
     constructor(props) {
@@ -48,7 +48,6 @@ class Chat extends Component {
     }
 
     showTyping = (user) => {
-        let _this = this;
         let users = this.state.users;
         users[user.userId].isTyping = true;
         this.setState({ users: users, isTyping: 'active' })
@@ -74,8 +73,8 @@ class Chat extends Component {
             <div>
                 <div className={'chat-message ' + owner} key={message.id}>
                     <div className='chat-message-username'>{message.username}</div>
-                    <div className='chat-message-text' >{message.text}</div>
-                    <div className='chat-message-timeStamp'>{message.timeStamp}</div>
+                    <div className='chat-message-text' dangerouslySetInnerHTML = {linkify(message.text)}></div>
+                    <div className='chat-message-timeStamp'>{moment(message.timeStamp).format('LLL')}</div>
                 </div>
                 <div className='chat-clear'></div>
             </div>
@@ -83,6 +82,11 @@ class Chat extends Component {
         var messages = this.state.messages;
         messages.push(messageElement);
         this.setState({ messages: messages });
+        function linkify(text){
+          return({
+            __html:text.replace(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/gi, "<a href = '$&' target='_blank'>$&</a>")
+        })
+      }
     }
 
     onKeyPress = (e) => {

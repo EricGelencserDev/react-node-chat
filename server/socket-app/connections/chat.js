@@ -37,7 +37,7 @@ function onConnect(socket) {
     socket.on('send', (message) => {
         message.id = messageId++;
         message.userId = users[socket.id].userId;
-        message.timeStamp = new Date();
+        message.timeStamp = new Date().getTime();
         this.emit('new-message', message);
     })
 
